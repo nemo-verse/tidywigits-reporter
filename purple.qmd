@@ -13,19 +13,15 @@ html-table-processing: none
 #| label: pkg_load
 #| warning: false
 #| message: false
-{
-  use("dplyr")
-  use("tibble", "tibble") # needed for tbl print
-  options(box.path = here::here("box"))
-  box::use(
-    wigits/plot[cat_plot],
-    wigits/utils[get_data, unnest_data],
-    wigits/table[reactable_wrapdown, gt_tab],
-    ppl_purity = purple/purity,
-    ppl_qc = purple/qc,
-    ppl_utils = purple/utils
+source(here::here("_setup.R"))
+box::use(
+  wigits/plot[cat_plot],
+  wigits/utils[get_data, unnest_data],
+  wigits/table[reactable_wrapdown, gt_tab],
+  ppl_purity = purple/purity,
+  ppl_qc = purple/qc,
+  ppl_utils = purple/utils,
 )
-}
 ```
 
 ```{r}

@@ -12,18 +12,12 @@ html-table-processing: none
 ```{r}
 #| label: pkg_load
 #| message: false
-{
-  use("here", "here")
-  use("dplyr")
-  use("tibble", "tibble") # needed for tbl print
-}
-box_path <- here::here("box")
-options(box.path = box_path)
+source(here::here("_setup.R"))
 # fmt: skip
 box::use(
   wigits/plot[cat_plot],
   wigits/utils[get_data, unnest_data],
-  ppl_qc = purple/qc
+  ppl_qc = purple/qc,
 )
 ```
 

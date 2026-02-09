@@ -8,12 +8,10 @@ html-table-processing: none
 ```{r}
 #| label: pkg_load
 #| message: false
-# box_path <- system.file("website/boxbox", package = "tidywigits")
-box_path <- here::here("inst/website/boxbox")
-options(box.path = box_path)
+source(here::here("_setup.R"))
 box::use(
   wigits/utils[get_data],
-  wigits/versions[gt_tab, tab_prep]
+  wigits/versions[gt_tab, tab_prep],
 )
 ```
 
