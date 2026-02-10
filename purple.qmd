@@ -10,23 +10,13 @@ html-table-processing: none
 ---
 
 ```{r}
-#| label: pkg_load
-#| warning: false
-#| message: false
+#| label: setup
 source(here::here("_setup.R"))
 box::use(
-  wigits/plot[cat_plot],
-  wigits/utils[get_data, unnest_data],
-  wigits/table[reactable_wrapdown, gt_tab],
   ppl_purity = purple/purity,
   ppl_qc = purple/qc,
   ppl_utils = purple/utils,
 )
-```
-
-```{r}
-#| label: data_setup
-dat <- get_data()
 ```
 
 ## QC
@@ -37,12 +27,12 @@ dat <- get_data()
 #| layout-nrow: 1
 tbl_nm <- "purple_qc"
 d <- dat$data |>
-  unnest_data(tbl_nm, schemas_all = dat$schemas)
+  tw_utils$unnest_data(tbl_nm, schemas_all = dat$schemas)
 qc_tab <- ppl_qc$gt_tab(d, dat$schemas)
 
 tbl_nm <- "purple_puritytsv"
 d <- dat$data |>
-  unnest_data(tbl_nm, schemas_all = dat$schemas)
+  tw_utils$unnest_data(tbl_nm, schemas_all = dat$schemas)
 purity_tab <- ppl_purity$gt_tab(d, dat$schemas)
 qc_tab
 purity_tab
@@ -51,9 +41,9 @@ purity_tab
 
 ```{r}
 #| label: purple_plotprep
-relpath <- "nogit/seqc100/purple/plot"
+plot_relpath <- "nogit/seqc100/purple/plot"
 p <- dat$ppl_plots |>
-  mutate(path = paste(relpath, .data$bname, sep = "/"))
+  mutate(path = paste(plot_relpath, .data$bname, sep = "/"))
 ```
 
 ## Plots
@@ -63,13 +53,13 @@ p <- dat$ppl_plots |>
 ```{r}
 #| label: purple_plots_other
 #| results: asis
-cat_plot(p, "purity_range", group = "ppl_other")
-cat_plot(p, "segment", group = "ppl_other")
-cat_plot(p, "clonality", group = "ppl_other")
-cat_plot(p, "cn_distro", group = "ppl_other")
-cat_plot(p, "map_distro", group = "ppl_other")
-cat_plot(p, "somatic_cnpdf", group = "ppl_other")
-cat_plot(p, "rainfall", group = "ppl_other")
+tw_plot$cat_plot(p, "purity_range", group = "ppl_other")
+tw_plot$cat_plot(p, "segment", group = "ppl_other")
+tw_plot$cat_plot(p, "clonality", group = "ppl_other")
+tw_plot$cat_plot(p, "cn_distro", group = "ppl_other")
+tw_plot$cat_plot(p, "map_distro", group = "ppl_other")
+tw_plot$cat_plot(p, "somatic_cnpdf", group = "ppl_other")
+tw_plot$cat_plot(p, "rainfall", group = "ppl_other")
 ```
 
 :::
@@ -99,7 +89,7 @@ dat$data |>
 #| column: screen-inset
 tbl_nm <- "purple_cnvgenetsv"
 d <- dat$data |>
-  unnest_data(tbl_nm, schemas_all = dat$schemas)
+  tw_utils$unnest_data(tbl_nm, schemas_all = dat$schemas)
 #  just keep a subset of genes for display
 # https://raw.githubusercontent.com/umccr/gene_panels/v24.03.0/somatic_panel/3_final_panel/final_panel.tsv
 genes <- system.file("website/boxbox/purple/genes.tsv", package = "tidywigits") |>
@@ -107,7 +97,7 @@ genes <- system.file("website/boxbox/purple/genes.tsv", package = "tidywigits") 
   dplyr::pull("gene_symbol")
 d$res |>
   dplyr::filter(gene %in% genes) |>
-  reactable_wrapdown(
+  tw_table$reactable_wrapdown(
     descriptions = d$schema$schema[c("field", "description")],
     id = tbl_nm,
     pagination = TRUE
@@ -121,9 +111,9 @@ d$res |>
 #| column: screen-inset
 tbl_nm <- "purple_cnvsomtsv"
 d <- dat$data |>
-  unnest_data(tbl_nm, schemas_all = dat$schemas)
+  tw_utils$unnest_data(tbl_nm, schemas_all = dat$schemas)
 d$res |>
-  reactable_wrapdown(
+  tw_table$reactable_wrapdown(
     descriptions = d$schema$schema[c("field", "description")],
     id = tbl_nm,
     pagination = TRUE
@@ -148,7 +138,7 @@ d <- dat$data
 d_som <- d |>
   ppl_utils$unnest_data_drivercatalog(schemas_all = dat$schemas, get_germline = FALSE)
 d_som$res |>
-  reactable_wrapdown(
+  tw_table$reactable_wrapdown(
     descriptions = d_som$schema$schema[c("field", "description")],
     id = paste0(tbl_nm, "_somatic"),
     pagination = TRUE
@@ -163,7 +153,7 @@ d_som$res |>
 d_germ <- d |>
   ppl_utils$unnest_data_drivercatalog(schemas_all = dat$schemas, get_germline = TRUE)
 d_germ$res |>
-  reactable_wrapdown(
+  tw_table$reactable_wrapdown(
     descriptions = d_germ$schema$schema[c("field", "description")],
     id = paste0(tbl_nm, "_germline"),
     pagination = TRUE
@@ -179,9 +169,9 @@ d_germ$res |>
 #| column: screen-inset
 tbl_nm <- "purple_germdeltsv"
 d <- dat$data |>
-  unnest_data(tbl_nm, schemas_all = dat$schemas)
+  tw_utils$unnest_data(tbl_nm, schemas_all = dat$schemas)
 d$res |>
-  reactable_wrapdown(
+  tw_table$reactable_wrapdown(
     descriptions = d$schema$schema[c("field", "description")],
     id = tbl_nm,
     pagination = TRUE

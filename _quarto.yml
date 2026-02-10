@@ -3,6 +3,18 @@ project:
   render:
     - index.qmd
     - amber.qmd
+    - bamtools.qmd
+    - chord.qmd
+    - cider.qmd
+    - cuppa.qmd
+    - lilac.qmd
+    - neo.qmd
+    - peach.qmd
+    - purple.qmd
+    - sigs.qmd
+    - teal.qmd
+    - versions.qmd
+    - virus.qmd
 format:
   html:
     page-layout: full

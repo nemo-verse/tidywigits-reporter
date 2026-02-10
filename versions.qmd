@@ -6,18 +6,9 @@ html-table-processing: none
 ---
 
 ```{r}
-#| label: pkg_load
-#| message: false
+#| label: setup
 source(here::here("_setup.R"))
-box::use(
-  wigits/utils[get_data],
-  wigits/versions[gt_tab, tab_prep],
-)
-```
-
-```{r}
-#| label: data_setup
-dat <- get_data()
+box::use(wigits/versions)
 ```
 
 ## Software Versions
@@ -25,6 +16,6 @@ dat <- get_data()
 ```{r}
 #| label: software_versions
 dat$data |>
-  tab_prep() |>
-  gt_tab()
+  versions$tab_prep() |>
+  versions$gt_tab()
 ```

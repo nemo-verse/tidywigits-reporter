@@ -10,21 +10,11 @@ html-table-processing: none
 ---
 
 ```{r}
-#| label: pkg_load
-#| message: false
+#| label: setup
 source(here::here("_setup.R"))
-# fmt: skip
-box::use(
-  wigits/plot[cat_plot],
-  wigits/utils[get_data, unnest_data],
-  ppl_qc = purple/qc,
-)
+box::use(ppl_qc = purple/qc)
 ```
 
-```{r}
-#| label: data_setup
-dat <- get_data()
-```
 
 ```{r}
 #| label: purple_plotprep
@@ -40,8 +30,8 @@ p <- dat$ppl_plots |>
 ```{r}
 #| label: purple_plots_circos
 #| results: asis
-cat_plot(p, "circos_baf_ar", group = "ppl_circos")
-cat_plot(p, "circos_snv_indel_cn_sv", group = "ppl_circos")
+tw_plot$cat_plot(p, "circos_baf_ar", group = "ppl_circos")
+tw_plot$cat_plot(p, "circos_snv_indel_cn_sv", group = "ppl_circos")
 ```
 
 :::
@@ -51,6 +41,6 @@ cat_plot(p, "circos_snv_indel_cn_sv", group = "ppl_circos")
 ```{r}
 #| label: purple_qc
 d <- dat$data |>
-  unnest_data("purple_qc", schemas_all = dat$schemas)
+  tw_utils$unnest_data("purple_qc", schemas_all = dat$schemas)
 ppl_qc$gt_tab(d, dat$schemas)
 ```

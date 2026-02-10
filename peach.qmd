@@ -7,24 +7,14 @@ html-table-processing: none
 
 
 ```{r}
-#| label: pkg_load
-#| warning: false
-#| message: false
+#| label: setup
 source(here::here("_setup.R"))
-box::use(
-  wigits/utils[get_data, unnest_data],
-  wigits/table[reactable_wrapdown],
-)
-```
-
-```{r}
-#| label: data_setup
-dat <- get_data()
+use("gt", "gt")
 tool <- "peach"
 dat$data <- dat$data |>
-  dplyr::filter(grepl(tool, .data$tool_parser))
+  filter(grepl(tool, .data$tool_parser))
 dat$schemas <- dat$schemas |>
-  dplyr::filter(.data$tool == {{ tool }})
+  filter(.data$tool == {{ tool }})
 ```
 
 ## QC
@@ -33,7 +23,7 @@ dat$schemas <- dat$schemas |>
 #| label: peach_qc
 tbl_nm <- "peach_qc"
 d <- dat$data |>
-  unnest_data(tbl_nm, schemas_all = dat$schemas)
+  tw_utils$unnest_data(tbl_nm, schemas_all = dat$schemas)
 gt::gt(d$res)
 ```
 
@@ -43,7 +33,7 @@ gt::gt(d$res)
 #| label: peach_events
 tbl_nm <- "peach_events"
 d <- dat$data |>
-  unnest_data(tbl_nm, schemas_all = dat$schemas)
+  tw_utils$unnest_data(tbl_nm, schemas_all = dat$schemas)
 gt::gt(d$res)
 ```
 
@@ -53,7 +43,7 @@ gt::gt(d$res)
 #| label: peach_eventsg
 tbl_nm <- "peach_eventsg"
 d <- dat$data |>
-  unnest_data(tbl_nm, schemas_all = dat$schemas)
+  tw_utils$unnest_data(tbl_nm, schemas_all = dat$schemas)
 gt::gt(d$res)
 ```
 
@@ -63,7 +53,7 @@ gt::gt(d$res)
 #| label: peach_hapbest
 tbl_nm <- "peach_hapbest"
 d <- dat$data |>
-  unnest_data(tbl_nm, schemas_all = dat$schemas)
+  tw_utils$unnest_data(tbl_nm, schemas_all = dat$schemas)
 gt::gt(d$res)
 ```
 
@@ -73,7 +63,7 @@ gt::gt(d$res)
 #| label: peach_hapall
 tbl_nm <- "peach_hapall"
 d <- dat$data |>
-  unnest_data(tbl_nm, schemas_all = dat$schemas)
+  tw_utils$unnest_data(tbl_nm, schemas_all = dat$schemas)
 gt::gt(d$res)
 ```
 

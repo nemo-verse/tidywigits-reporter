@@ -11,22 +11,12 @@ html-table-processing: none
 
 
 ```{r}
-#| label: pkg_load
-#| warning: false
-#| message: false
+#| label: setup
 source(here::here("_setup.R"))
-box::use(
-  wigits/utils[get_data, unnest_data_multi],
-  wigits/table[reactable_wrapdown],
-  bt_utils = bamtools/utils,
-)
-```
-
-```{r}
-#| label: data_setup
-dat <- get_data()
+box::use(bt_utils = bamtools/utils)
+tool <- "bamtools"
 dat$data <- dat$data |>
-  dplyr::filter(grepl("bamtools", .data$tool_parser))
+  dplyr::filter(grepl(tool, .data$tool_parser))
 ```
 
 ## Summary
@@ -36,13 +26,13 @@ dat$data <- dat$data |>
 #| column: page
 tbl_nm <- "bamtools_summary"
 d1 <- dat$data |>
-  unnest_data_multi(tbl_nm, schemas_all = dat$schemas, subnest = "summary", tb = "tbl1")
+  tw_utils$unnest_data_multi(tbl_nm, schemas_all = dat$schemas, subnest = "summary", tb = "tbl1")
 d2 <- dat$data |>
-  unnest_data_multi(tbl_nm, schemas_all = dat$schemas, subnest = "covx", tbl = "tbl2")
+  tw_utils$unnest_data_multi(tbl_nm, schemas_all = dat$schemas, subnest = "covx", tbl = "tbl2")
 descr1 <- tibble::tibble(field = "prefix", description = "File prefix") |>
   dplyr::bind_rows(d1$schema$schema[c("field", "description")])
 d1$res |>
-  reactable_wrapdown(
+  tw_table$reactable_wrapdown(
     descriptions = descr1,
     id = paste0(tbl_nm, "_summary"),
     pagination = TRUE
@@ -60,7 +50,7 @@ d2$res |>
 #| column: page
 tbl_nm <- "bamtools_coverage"
 d1 <- dat$data |>
-  unnest_data_multi(tbl_nm, schemas_all = dat$schemas, subnest = "coverage")
+  tw_utils$unnest_data_multi(tbl_nm, schemas_all = dat$schemas, subnest = "coverage")
 d1$res |>
   ggplot2::ggplot(ggplot2::aes(x = coverage, y = count, colour = prefix)) +
   ggplot2::geom_line() +
@@ -79,7 +69,7 @@ d1$res |>
 #| column: page
 tbl_nm <- "bamtools_exoncvg"
 d1 <- dat$data |>
-  unnest_data_multi(tbl_nm, schemas_all = dat$schemas, subnest = "exoncvg")
+  tw_utils$unnest_data_multi(tbl_nm, schemas_all = dat$schemas, subnest = "exoncvg")
 p1 <- d1$res |>
   ggplot2::ggplot(ggplot2::aes(x = gene, y = dp_med, fill = prefix)) +
   ggplot2::geom_point(alpha = 1 / 2, shape = 21, colour = "black") +
@@ -124,9 +114,9 @@ bt_utils$cvg_exon_plot_bar(d1$res)
 #| label: bamtools_genecvg
 tbl_nm <- "bamtools_genecvg"
 d1 <- dat$data |>
-  unnest_data_multi(tbl_nm, schemas_all = dat$schemas, subnest = "genes")
+  tw_utils$unnest_data_multi(tbl_nm, schemas_all = dat$schemas, subnest = "genes")
 d2 <- dat$data |>
-  unnest_data_multi(tbl_nm, schemas_all = dat$schemas, subnest = "cvg")
+  tw_utils$unnest_data_multi(tbl_nm, schemas_all = dat$schemas, subnest = "cvg")
 ```
 
 
